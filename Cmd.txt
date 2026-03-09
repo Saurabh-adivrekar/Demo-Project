@@ -1,0 +1,151 @@
+Run maven project:
+
+java -cp target/MavenDemoApp-1.0-SNAPSHOT.jar org.myapp.com.App
+
+
+
+Tomcat User.xml:
+
+
+<role rolename="manager-gui"/>
+  <user username="admin" password="12345" roles="manager-gui"/>
+
+
+
+Maven Compiler Plugin:
+
+	<plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-compiler-plugin</artifactId>
+            <version>3.8.1</version>
+            <configuration>
+                <source>1.8</source>
+                <target>1.8</target>
+            </configuration>
+       </plugin>
+
+
+Tomcat plugin:
+
+       <plugin>
+            <groupId>org.apache.tomcat.maven</groupId>
+            <artifactId>tomcat7-maven-plugin</artifactId>
+            <version>2.2</version>
+       </plugin>
+
+Jetty Plugin:
+	
+	<plugin>
+            <groupId>org.eclipse.jetty</groupId>
+            <artifactId>jetty-maven-plugin</artifactId>
+            <version>9.4.53.v20231009</version>
+        </plugin>
+
+
+
+MyClass.java
+
+package org.mywebapp.com;
+
+import java.util.*;
+
+public class MyClass
+{
+    public static void main(String[] args)
+    {
+        List<String> stringList = new ArrayList<String>();
+    }
+}
+
+
+
+
+
+CalculatorServlet.java
+
+
+package org.mywebapp.com;
+
+import java.io.IOException;
+import java.io.PrintWriter;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+public class CalculatorServlet extends HttpServlet {
+
+    protected void doGet(HttpServletRequest request,
+                         HttpServletResponse response)
+            throws ServletException, IOException {
+
+        response.setContentType("text/html;charset=UTF-8");
+        PrintWriter out = response.getWriter();
+
+        double n1 = Double.parseDouble(request.getParameter("txtN1"));
+        double n2 = Double.parseDouble(request.getParameter("txtN2"));
+        String opr = request.getParameter("opr");
+
+        double result = 0;
+
+        if (opr.equals("+"))
+            result = n1 + n2;
+
+        if (opr.equals("-"))
+            result = n1 - n2;
+
+        if (opr.equals("*"))
+            result = n1 * n2;
+
+        if (opr.equals("/"))
+            result = n1 / n2;
+
+        out.println("<html><body>");
+        out.println("<h2>Calculator Result</h2>");
+        out.println("<h3>Result = " + result + "</h3>");
+        out.println("<a href='index.jsp'>Back</a>");
+        out.println("</body></html>");
+    }
+}
+
+
+
+
+
+index.jsp
+
+<%@ page contentType="text/html" pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Calculator App</title>
+</head>
+<body>
+
+<h2>Simple Calculator</h2>
+
+<form action="CalculatorServlet" method="get">
+    Enter First Number: 
+    <input type="text" name="txtN1"><br><br>
+
+    Enter Second Number: 
+    <input type="text" name="txtN2"><br><br>
+
+    Select an Operation:<br>
+    <input type="radio" name="opr" value="+"> ADDITION<br>
+    <input type="radio" name="opr" value="-"> SUBTRACTION<br>
+    <input type="radio" name="opr" value="*"> MULTIPLY<br>
+    <input type="radio" name="opr" value="/"> DIVIDE<br><br>
+
+    <input type="reset">
+    <input type="submit" value="Calculate">
+
+</form>
+
+</body>
+</html>
+
+
+
+
+
